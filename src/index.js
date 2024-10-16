@@ -53,13 +53,7 @@ app.patch("/update/:id",async (req,res) => {
     if(!id || !task || !completed){
       return res.status(400).json({ message: "No fields provided to update" });
     }
-    const todoItem = await prisma.todos.findUnique({
-      where :{id : parseInt(id)}
-    });
-    if(!todoItem){
-      return res.status(404).json({ message: "Todo not found" });
-    }
-    if(task || completed){
+    else if(task || completed){
       const updatedData = await prisma.todos.update({
         where:{id : parseInt(id)},
         // OR: [{task: task},{completed: completed}],
@@ -71,6 +65,24 @@ app.patch("/update/:id",async (req,res) => {
         }
       })
     }
+    const todoItem = await prisma.todos.findUnique({
+      where :{id : parseInt(id)}
+    });
+    if(!todoItem){
+      return res.status(404).json({ message: "Todo not found" });
+    }
+    // if(task || completed){
+    //   const updatedData = await prisma.todos.update({
+    //     where:{id : parseInt(id)},
+    //     // OR: [{task: task},{completed: completed}],
+    //     data: req.body,
+    //   })
+    //   return res.status(200).json({message: "Todo is updated",
+    //     todo: {
+    //       updatedData
+    //     }
+    //   })
+    // }
   }catch(err){
     console.error(err);
     return res.status(500).json({ error: "Internal Server Error" });
