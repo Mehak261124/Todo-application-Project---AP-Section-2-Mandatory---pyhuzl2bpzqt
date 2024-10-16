@@ -62,8 +62,8 @@ app.patch("/update/:id",async (req,res) => {
     if(task || completed){
       const updatedData = await prisma.todos.update({
         where:{id : parseInt(id)},
-        // OR: [{task: task},{completed: completed}],
-        data: req.body,
+        OR: [{task: task},{completed: completed}],
+        // data: req.body,
       })
       return res.status(200).json({message: "Todo is updated",
         todo: {
