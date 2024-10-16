@@ -33,11 +33,11 @@ app.post("/create", async (req, res) => {
 
 app.get("/getAll", async (req,res) => {
   const {id} = req.params;
-  const { task,completed } = req.body;
+  // const { task,completed } = req.body;
   try{
     const todoItem = await prisma.todos.findMany({
-      where :{id : parseInt(id)},
-      data: req.body
+      where :{id : id},
+      // data: req.body
     });
     return res.status(200).json({todos: todoItem})
   } catch(err){
