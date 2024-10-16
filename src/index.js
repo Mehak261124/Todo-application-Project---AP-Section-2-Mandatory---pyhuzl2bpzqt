@@ -34,10 +34,11 @@ app.post("/create", async (req, res) => {
 app.get("/getAll", async (req,res) => {
   const {id} = req.params;
   try{
-    const todoItem = await prisma.todos.findUnique({
-      where :{id : parseInt(id)}
+    const todoItem = await prisma.todos.findMany({
+      where :{id : parseInt(id)},
+      data: req.body
     });
-    return res.status(200).json({todos: result})
+    return res.status(200).json({todos: todoItem})
   } catch(err){
     console.error(err);
     return res.status(500).json({ error: "Internal Server Error" });
