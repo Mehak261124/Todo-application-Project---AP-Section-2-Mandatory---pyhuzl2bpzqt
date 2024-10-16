@@ -34,9 +34,9 @@ app.post("/create", async (req, res) => {
 app.get("/getAll", async (req,res) => {
   const {id} = req.params;
   try{
-    const result = await prisma.todos.findMany({
+    const todoItem = await prisma.todos.findUnique({
       where :{id : parseInt(id)}
-    })
+    });
     return res.status(200).json({todos: result})
   } catch(err){
     console.error(err);
