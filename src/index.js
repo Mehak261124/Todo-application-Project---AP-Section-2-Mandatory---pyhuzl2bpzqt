@@ -39,7 +39,7 @@ app.get("/getAll", async (req,res) => {
         id,task,completed
       }
     })
-    return res.status(200).json(result)
+    return res.status(200).json({todos: [result]})
   } catch(err){
     console.error(err);
     return res.status(500).json({ error: "Internal Server Error" });
@@ -61,6 +61,7 @@ app.patch("/update/:id",async (req,res) => {
     }
     const updatedData = await prisma.todos.update({
       where:{id : parseInt(id)},
+      OR: [{task},{completed}],
       data: req.body
     })
     return res.status(200).json({message: "Todo is updated",
