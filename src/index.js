@@ -59,7 +59,19 @@ app.patch("/update/:id",async (req,res) => {
     if(!todoItem){
       return res.status(404).json({ message: "Todo not found" });
     }
-    if(task || completed){
+    if(task){
+      const updatedData = await prisma.todos.update({
+        where:{id : parseInt(id)},
+        // OR: [{task: task},{completed: completed}],
+        data: req.body,
+      })
+      return res.status(200).json({message: "Todo is updated",
+        todo: {
+          updatedData
+        }
+      })
+    }
+    if(completed){
       const updatedData = await prisma.todos.update({
         where:{id : parseInt(id)},
         // OR: [{task: task},{completed: completed}],
